@@ -44,7 +44,7 @@ services:
   nginx:
     image: nginx
     volumes:
-      - /root/docker-swarm/traefik/default.conf:/etc/nginx/conf.d/default.conf
+      - /root/docker-swarm/stack-traefik/default.conf:/etc/nginx/conf.d/default.conf
     networks:
       - traefik
     deploy:
