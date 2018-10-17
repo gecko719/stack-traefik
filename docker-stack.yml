@@ -1,0 +1,59 @@
+version: "3"
+
+services:
+  traefik:
+    image: traefik
+    command:
+      - --api
+      - --docker
+      - --docker.swarmMode
+      # - --debug
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    environment:
+      CLOUDFLARE_EMAIL: test@example.io
+      CLOUDFLARE_API_KEY: cloudflare_global_key
+    networks:
+      - traefik
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+#      - /home/ubuntu/traefik.toml:/traefik.toml
+#      - /home/ubuntu/acme.json:/acme.json
+#      - /home/ubuntu/traefik.log:/traefik.log
+#      - /home/ubuntu/access.log:/access.log
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+  whoami:
+    image: emilevauge/whoami
+    networks:
+      - traefik
+    deploy:
+      labels:
+        traefik.enabled: "true"
+        traefik.port: 80
+        traefik.frontend.entryPoints: https,http
+        traefik.frontend.rule: Host:dev.example.io
+#      placement:
+#        constraints:
+#          - node.role == worker
+  
+  nginx:
+    image: nginx
+    volumes:
+      - /root/docker-swarm/traefik/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - traefik
+    deploy:
+      labels:
+        traefik.enabled: "true"
+        traefik.port: 81
+        traefik.frontend.entryPoints: https,http
+        traefik.frontend.rule: Host:dev.example.nginx
+
+networks:
+  traefik:
+#    external: true
