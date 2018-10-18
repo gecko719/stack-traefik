@@ -9,9 +9,9 @@ services:
       - --docker.swarmMode
       # - --debug
     ports:
-      - 80:80
+      - 10080:80
       - 443:443
-      - 8080:8080
+      - 18080:8080
     environment:
       CLOUDFLARE_EMAIL: test@example.io
       CLOUDFLARE_API_KEY: cloudflare_global_key
@@ -45,6 +45,7 @@ services:
     image: nginx
     volumes:
       - /root/docker-swarm/stack-traefik/default.conf:/etc/nginx/conf.d/default.conf
+      - /root/docker-swarm/stack-traefik/a.html:/usr/share/nginx/html/abc/a.html
     networks:
       - traefik
     deploy:
@@ -52,7 +53,7 @@ services:
         traefik.enabled: "true"
         traefik.port: 81
         traefik.frontend.entryPoints: https,http
-        traefik.frontend.rule: Host:dev.example.nginx
+        traefik.frontend.rule: Host:dev.example.io;PathPrefix:/abc/
 
 networks:
   traefik:
