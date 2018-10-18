@@ -21,7 +21,7 @@ uv0yd3cw8jpt        t_whoami            replicated          1/1                 
 > host: dev.example.io
 
 ~~~
-# curl --header "host: dev.example.io" http://10.0.1.7
+# curl --header "host: dev.example.io" http://10.0.1.7:10080
 Hostname: ec6389c53a3b
 IP: 127.0.0.1
 IP: 10.0.0.5
@@ -43,30 +43,6 @@ X-Real-Ip: 10.255.0.2
 > host: dev.example.nginx
 
 ~~~
-# # curl --header "host: dev.example.nginx" http://10.0.1.7
-<!DOCTYPE html>
-<html>
-<head>
-<title>Welcome to nginx!</title>
-<style>
-    body {
-        width: 35em;
-        margin: 0 auto;
-        font-family: Tahoma, Verdana, Arial, sans-serif;
-    }
-</style>
-</head>
-<body>
-<h1>Welcome to nginx!</h1>
-<p>If you see this page, the nginx web server is successfully installed and
-working. Further configuration is required.</p>
-
-<p>For online documentation and support please refer to
-<a href="http://nginx.org/">nginx.org</a>.<br/>
-Commercial support is available at
-<a href="http://nginx.com/">nginx.com</a>.</p>
-
-<p><em>Thank you for using nginx.</em></p>
-</body>
-</html>
+# curl --header "host: dev.example.io" http://10.0.1.7:10080/abc/a.html
+hello
 ~~~
